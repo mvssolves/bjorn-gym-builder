@@ -283,6 +283,120 @@
     justify-content:center;
     padding-top:2px;
   }
+
+  .picker-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:30;
+    display:flex;
+    align-items:flex-end;
+  }
+  .picker-panel{
+    width:100%;
+    max-width:480px;
+    margin:0 auto;
+    max-height:82vh;
+    background:var(--bg);
+    border-top:1px solid var(--border);
+    border-radius:16px 16px 0 0;
+    box-shadow:0 -8px 30px rgba(0,0,0,.5);
+    display:flex;
+    flex-direction:column;
+    padding:16px 14px calc(16px + env(safe-area-inset-bottom));
+  }
+  .picker-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .picker-head h2{
+    font-size:15px;
+    font-weight:900;
+    text-transform:uppercase;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  #pickerClose{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text-dim);
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+  #pickerSearch{
+    width:100%;
+    background:var(--surface);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:11px 12px;
+    font-size:14px;
+    font-family:inherit;
+    margin-bottom:10px;
+  }
+  #pickerCustomBtn{
+    width:100%;
+    border:1px dashed var(--accent);
+    background:color-mix(in srgb, var(--accent) 10%, var(--surface));
+    color:var(--accent);
+    font-size:13px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:12px;
+  }
+  #pickerList{
+    overflow-y:auto;
+    flex:1;
+  }
+  .picker-muscle{
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--text-dim);
+    padding:10px 2px 6px;
+  }
+  .picker-item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:11px 12px;
+    margin-bottom:6px;
+    cursor:pointer;
+    text-align:left;
+  }
+  .picker-item .piname{
+    font-size:14px;
+    font-weight:600;
+    color:var(--text);
+  }
+  .picker-item .pidef{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--text-dim);
+    white-space:nowrap;
+    margin-left:8px;
+  }
+  .picker-empty{
+    text-align:center;
+    color:var(--text-dim);
+    font-size:13px;
+    padding:24px 10px;
+  }
   #addExBtn{
     width:100%;
     border:1px dashed var(--border);
@@ -343,6 +457,18 @@
   </div>
 </div>
 
+<div class="picker-backdrop" id="pickerBackdrop" hidden>
+  <div class="picker-panel">
+    <div class="picker-head">
+      <h2>Add Exercise</h2>
+      <button id="pickerClose">Close</button>
+    </div>
+    <input type="text" id="pickerSearch" placeholder="Search…">
+    <button id="pickerCustomBtn">+ Type a custom exercise</button>
+    <div id="pickerList"></div>
+  </div>
+</div>
+
 <script>
 (function(){
   // ---- Fully custom, blank-by-default workout builder ----
@@ -357,6 +483,57 @@
   var LS_PROGRESS = "gymbuilder:progress"; // { "dayId-exId": filledCount }
   var LS_DAYDATE = "gymbuilder:dayDate";   // { dayId: "Mon Sep 08 2026" }
   var LS_SELECTED = "gymbuilder:selectedDay"; // last-viewed day id
+
+  // Every exercise already programmed into the main checklist (Upper/Lower v2),
+  // reused verbatim so nothing gets typed twice. Tapping one adds it instantly
+  // with its known sets/reps; the stepper still lets you change it after.
+  var EXERCISE_LIBRARY = [
+    { muscle: "Chest", items: [
+      { name: "Incline Barbell Press", sets: 3, reps: "8-10" },
+      { name: "Chest Flyes (cable/machine)", sets: 4, reps: "12-15" },
+      { name: "Flat Dumbbell Press", sets: 3, reps: "10-12" },
+      { name: "Dips", sets: 4, reps: "10-12" }
+    ]},
+    { muscle: "Back", items: [
+      { name: "Weighted Pull-Ups", sets: 4, reps: "8-10" },
+      { name: "T-Bar Rows", sets: 4, reps: "10-12" },
+      { name: "Seated Cable Rows", sets: 3, reps: "12-15" },
+      { name: "Straight Arm Pulldowns", sets: 3, reps: "12-15" }
+    ]},
+    { muscle: "Shoulders", items: [
+      { name: "Overhead Barbell Press", sets: 4, reps: "8-10" },
+      { name: "Lateral Raises", sets: 4, reps: "12-15" },
+      { name: "Reverse Pec Deck / Rear Delt Flyes", sets: 4, reps: "15-20" },
+      { name: "Front Raises", sets: 3, reps: "12-15" }
+    ]},
+    { muscle: "Triceps", items: [
+      { name: "Tricep Pushdowns (rope)", sets: 3, reps: "15-20" },
+      { name: "Close Grip Bench / Diamond Push-Ups", sets: 3, reps: "10-12" }
+    ]},
+    { muscle: "Biceps", items: [
+      { name: "Preacher Curls", sets: 4, reps: "8-12" },
+      { name: "Hammer Curls", sets: 3, reps: "12-15" },
+      { name: "Cable Curls", sets: 3, reps: "15-20" }
+    ]},
+    { muscle: "Traps", items: [
+      { name: "Barbell Shrugs", sets: 3, reps: "12-15" }
+    ]},
+    { muscle: "Forearms", items: [
+      { name: "Forearm Curls", sets: 3, reps: "15-20" }
+    ]},
+    { muscle: "Quads", items: [
+      { name: "Leg Press", sets: 3, reps: "10-12" },
+      { name: "Hack Squats", sets: 4, reps: "10-12" },
+      { name: "Walking Lunges", sets: 4, reps: "10-12/leg" }
+    ]},
+    { muscle: "Hamstrings", items: [
+      { name: "Seated Leg Curls", sets: 4, reps: "10-12" },
+      { name: "Lying Leg Curls", sets: 4, reps: "12-15" }
+    ]},
+    { muscle: "Calves", items: [
+      { name: "Standing Calf Raises", sets: 4, reps: "15-20" }
+    ]}
+  ];
 
   function lsGet(key, fallback){
     try { var v = localStorage.getItem(key); return v === null ? fallback : v; }
@@ -473,10 +650,16 @@
     render();
   });
 
-  // ---- Add exercise ----
-  document.getElementById("addExBtn").addEventListener("click", function(){
+  // ---- Add exercise: opens the picker instead of going straight to a prompt ----
+  function addExerciseToCurrentDay(name, sets, reps){
     var day = currentDay();
     if (!day) return;
+    day.exercises.push({ id: uid(), name: name, sets: sets, reps: reps || "" });
+    saveData();
+    render();
+  }
+
+  function promptCustomExercise(){
     var name = prompt("Exercise name:");
     if (name === null) return;
     name = name.trim();
@@ -488,9 +671,61 @@
     if (sets > 12) sets = 12;
     var reps = prompt("Reps (optional, e.g. 8-12) — leave blank to skip:", "");
     if (reps === null) reps = "";
-    day.exercises.push({ id: uid(), name: name, sets: sets, reps: reps.trim() });
-    saveData();
-    render();
+    addExerciseToCurrentDay(name, sets, reps.trim());
+  }
+
+  var pickerBackdrop = document.getElementById("pickerBackdrop");
+  var pickerSearch = document.getElementById("pickerSearch");
+  var pickerList = document.getElementById("pickerList");
+
+  function openPicker(){
+    pickerSearch.value = "";
+    renderPickerList("");
+    pickerBackdrop.hidden = false;
+    setTimeout(function(){ pickerSearch.focus(); }, 50);
+  }
+  function closePicker(){ pickerBackdrop.hidden = true; }
+
+  function renderPickerList(query){
+    var q = query.trim().toLowerCase();
+    pickerList.innerHTML = "";
+    var anyMatch = false;
+    EXERCISE_LIBRARY.forEach(function(group){
+      var matches = group.items.filter(function(it){
+        return !q || it.name.toLowerCase().indexOf(q) !== -1;
+      });
+      if (matches.length === 0) return;
+      anyMatch = true;
+      var head = document.createElement("div");
+      head.className = "picker-muscle";
+      head.textContent = group.muscle;
+      pickerList.appendChild(head);
+      matches.forEach(function(it){
+        var btn = document.createElement("button");
+        btn.className = "picker-item";
+        btn.innerHTML = '<span class="piname">' + it.name + '</span>' +
+          '<span class="pidef">' + it.sets + '&times;' + it.reps + '</span>';
+        btn.addEventListener("click", function(){
+          addExerciseToCurrentDay(it.name, it.sets, it.reps);
+          closePicker();
+        });
+        pickerList.appendChild(btn);
+      });
+    });
+    if (!anyMatch) {
+      pickerList.innerHTML = '<div class="picker-empty">No matches — try "+ Type a custom exercise" above.</div>';
+    }
+  }
+
+  document.getElementById("addExBtn").addEventListener("click", openPicker);
+  document.getElementById("pickerClose").addEventListener("click", closePicker);
+  document.getElementById("pickerCustomBtn").addEventListener("click", function(){
+    closePicker();
+    promptCustomExercise();
+  });
+  pickerSearch.addEventListener("input", function(){ renderPickerList(pickerSearch.value); });
+  pickerBackdrop.addEventListener("click", function(e){
+    if (e.target === pickerBackdrop) closePicker();
   });
 
   // ---- Reset today's dots for this day ----
