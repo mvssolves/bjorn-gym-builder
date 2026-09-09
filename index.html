@@ -73,104 +73,12 @@
     letter-spacing:0.02em;
   }
 
-  .tabs{
-    display:flex;
-    flex-wrap:wrap;
-    gap:4px;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:4px;
-    box-shadow:var(--shadow);
-  }
-  .tab{
-    flex:1 0 auto;
-    min-width:56px;
-    border:none;
-    background:transparent;
-    color:var(--text-dim);
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:0.01em;
-    padding:9px 10px;
-    border-radius:5px;
-    cursor:pointer;
-    text-align:center;
-    white-space:nowrap;
-  }
-  .tab[aria-selected="true"]{
-    background:var(--accent);
-    color:var(--accent-ink);
-    box-shadow:inset 0 1px 2px rgba(0,0,0,.25);
-  }
-  .tab-add{
-    flex:0 0 auto;
-    min-width:38px;
-    border:1px dashed var(--border);
-    background:transparent;
-    color:var(--text-dim);
-    font-size:16px;
-    font-weight:700;
-    padding:9px 10px;
-    border-radius:5px;
-    cursor:pointer;
-  }
-
-  .day-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:2px 2px 0;
-    gap:8px;
-  }
-  .day-title .name{
-    font-size:21px;
-    font-weight:900;
-    letter-spacing:-0.01em;
-    text-transform:uppercase;
-    transform:scaleX(0.96);
-    transform-origin:left center;
-    display:inline-block;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-  .day-actions{
-    display:flex;
-    gap:6px;
-    flex-shrink:0;
-  }
-  .day-actions button{
-    border:1px solid var(--border);
-    background:var(--surface);
-    color:var(--text-dim);
-    font-size:11px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.03em;
-    padding:6px 10px;
-    border-radius:6px;
-    cursor:pointer;
-  }
-  .day-actions button.danger{ color:var(--accent); border-color:color-mix(in srgb, var(--accent) 40%, var(--border)); }
-
-  #exList{
+  #groups{
     display:flex;
     flex-direction:column;
     gap:10px;
   }
-  .empty{
-    background:var(--surface);
-    border:1px dashed var(--border);
-    border-radius:8px;
-    padding:36px 20px;
-    text-align:center;
-    color:var(--text-dim);
-    font-size:13px;
-    line-height:1.6;
-  }
-
-  .ex{
+  .group{
     background:var(--surface);
     border:1px solid var(--border);
     border-top:2px solid color-mix(in srgb, var(--accent) 40%, var(--border));
@@ -178,88 +86,83 @@
     padding:10px 12px;
     box-shadow:var(--shadow);
   }
-  .ex-head{
+  .group-head{
     display:flex;
-    align-items:flex-start;
+    align-items:center;
     justify-content:space-between;
+    padding-bottom:6px;
+  }
+  .gname{
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--text-dim);
+  }
+  .group-progress{
+    display:flex;
+    align-items:center;
     gap:8px;
   }
-  .ex-name{
-    font-size:15px;
-    font-weight:700;
-    color:var(--text);
-    background:none;
-    border:none;
-    text-align:left;
-    padding:0;
-    cursor:pointer;
-    line-height:1.3;
+  .frac{
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:600;
+    color:var(--text-dim);
+    font-variant-numeric:tabular-nums;
   }
-  .ex-name.done{
+  .bar{
+    width:44px;
+    height:4px;
+    border-radius:2px;
+    background:var(--dot-empty);
+    overflow:hidden;
+    display:inline-block;
+  }
+  .bar i{
+    display:block;
+    width:100%;
+    height:100%;
+    background:var(--accent);
+    transform-origin:left center;
+    transition:transform .2s ease;
+  }
+
+  .item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 0;
+    border-top:1px solid var(--border);
+  }
+  .group .item:first-of-type{border-top:none;}
+  .item .iname{
+    font-size:14px;
+    font-weight:600;
+    line-height:1.25;
+    color:var(--text);
+  }
+  .item .iname.done{
     text-decoration:line-through;
     text-decoration-color:var(--accent);
     text-decoration-thickness:2px;
     color:var(--text-dim);
   }
-  .ex-reps{
-    display:block;
+  .item .iset{
+    margin-left:6px;
     font-family:var(--mono);
     font-size:11px;
+    font-weight:600;
     color:var(--text-dim);
-    background:none;
-    border:none;
-    padding:0;
-    margin-top:2px;
-    cursor:pointer;
-    text-align:left;
-  }
-  .ex-del{
-    flex-shrink:0;
-    width:26px;height:26px;
-    border-radius:6px;
-    border:1px solid var(--border);
-    background:var(--surface-2);
-    color:var(--text-dim);
-    font-size:14px;
-    line-height:1;
-    cursor:pointer;
-  }
-
-  .ex-row2{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-top:9px;
-  }
-  .stepper{
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-  .stepper button{
-    width:26px;height:26px;
-    border-radius:6px;
-    border:1px solid var(--border);
-    background:var(--surface-2);
-    color:var(--text);
-    font-size:15px;
-    font-weight:800;
-    cursor:pointer;
-    padding:0;
-  }
-  .stepper .scount{
-    font-family:var(--mono);
-    font-size:13px;
-    font-weight:700;
-    min-width:44px;
-    text-align:center;
   }
   .dots{
     display:flex;
     gap:6px;
+    flex-shrink:0;
     flex-wrap:wrap;
     justify-content:flex-end;
+    max-width:130px;
   }
   .dot{
     width:24px;height:24px;
@@ -278,143 +181,10 @@
     box-shadow:inset 0 -2px 3px rgba(0,0,0,.3);
   }
 
-  .add-row{
-    display:flex;
-    justify-content:center;
-    padding-top:2px;
-  }
-
-  .picker-backdrop{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.6);
-    z-index:30;
-    display:flex;
-    align-items:flex-end;
-  }
-  .picker-panel{
-    width:100%;
-    max-width:480px;
-    margin:0 auto;
-    max-height:82vh;
-    background:var(--bg);
-    border-top:1px solid var(--border);
-    border-radius:16px 16px 0 0;
-    box-shadow:0 -8px 30px rgba(0,0,0,.5);
-    display:flex;
-    flex-direction:column;
-    padding:16px 14px calc(16px + env(safe-area-inset-bottom));
-  }
-  .picker-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-  }
-  .picker-head h2{
-    font-size:15px;
-    font-weight:900;
-    text-transform:uppercase;
-    margin:0;
-    letter-spacing:-0.01em;
-  }
-  #pickerClose{
-    border:1px solid var(--border);
-    background:var(--surface);
-    color:var(--text-dim);
-    font-size:11px;
-    font-weight:700;
-    text-transform:uppercase;
-    padding:6px 12px;
-    border-radius:6px;
-    cursor:pointer;
-  }
-  #pickerSearch{
-    width:100%;
-    background:var(--surface);
-    color:var(--text);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:11px 12px;
-    font-size:14px;
-    font-family:inherit;
-    margin-bottom:10px;
-  }
-  #pickerCustomBtn{
-    width:100%;
-    border:1px dashed var(--accent);
-    background:color-mix(in srgb, var(--accent) 10%, var(--surface));
-    color:var(--accent);
-    font-size:13px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:0.03em;
-    padding:12px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:12px;
-  }
-  #pickerList{
-    overflow-y:auto;
-    flex:1;
-  }
-  .picker-muscle{
-    font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    color:var(--text-dim);
-    padding:10px 2px 6px;
-  }
-  .picker-item{
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:11px 12px;
-    margin-bottom:6px;
-    cursor:pointer;
-    text-align:left;
-  }
-  .picker-item .piname{
-    font-size:14px;
-    font-weight:600;
-    color:var(--text);
-  }
-  .picker-item .pidef{
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--text-dim);
-    white-space:nowrap;
-    margin-left:8px;
-  }
-  .picker-empty{
-    text-align:center;
-    color:var(--text-dim);
-    font-size:13px;
-    padding:24px 10px;
-  }
-  #addExBtn{
-    width:100%;
-    border:1px dashed var(--border);
-    background:var(--surface);
-    color:var(--text-dim);
-    font-size:13px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    padding:13px;
-    border-radius:8px;
-    cursor:pointer;
-  }
-
   .reset-row{
     display:flex;
     justify-content:center;
-    padding-top:6px;
+    padding-top:4px;
   }
   #resetBtn{
     border:1px solid var(--border);
@@ -436,58 +206,21 @@
     <span class="plate" id="dateLabel"></span>
   </div>
 
-  <div class="tabs" id="tabs" role="tablist"></div>
-
-  <div class="day-title">
-    <span class="name" id="dayName"></span>
-    <div class="day-actions">
-      <button id="renameDayBtn">Rename</button>
-      <button id="deleteDayBtn" class="danger">Delete</button>
-    </div>
-  </div>
-
-  <div id="exList"></div>
-
-  <div class="add-row">
-    <button id="addExBtn">+ Add Exercise</button>
-  </div>
+  <div id="groups"></div>
 
   <div class="reset-row">
-    <button id="resetBtn">Reset this day's dots</button>
-  </div>
-</div>
-
-<div class="picker-backdrop" id="pickerBackdrop" hidden>
-  <div class="picker-panel">
-    <div class="picker-head">
-      <h2>Add Exercise</h2>
-      <button id="pickerClose">Close</button>
-    </div>
-    <input type="text" id="pickerSearch" placeholder="Search…">
-    <button id="pickerCustomBtn">+ Type a custom exercise</button>
-    <div id="pickerList"></div>
+    <button id="resetBtn">Reset today's dots</button>
   </div>
 </div>
 
 <script>
 (function(){
-  // ---- Fully custom, blank-by-default workout builder ----
-  // No pre-programmed exercises. Bjorn adds days, exercises, and sets on the
-  // fly at the gym. Everything lives in localStorage on his device only.
-  // Per-day auto-reset: opening a day for the first time on a new calendar
-  // date clears just that day's dots — a global daily reset would be wrong
-  // here since days aren't tied to a fixed weekly calendar slot, he picks
-  // whichever one he's doing right now.
+  // ---- Flat checklist of every exercise, no days, no picker ----
+  // Every exercise from the Upper/Lower checklist, one page, grouped by
+  // muscle, tap dots to log sets. Resets once a day, globally, same as the
+  // original checklist did.
 
-  var LS_DATA = "gymbuilder:data";       // { days: [{id,name,exercises:[{id,name,sets,reps}]}] }
-  var LS_PROGRESS = "gymbuilder:progress"; // { "dayId-exId": filledCount }
-  var LS_DAYDATE = "gymbuilder:dayDate";   // { dayId: "Mon Sep 08 2026" }
-  var LS_SELECTED = "gymbuilder:selectedDay"; // last-viewed day id
-
-  // Every exercise already programmed into the main checklist (Upper/Lower v2),
-  // reused verbatim so nothing gets typed twice. Tapping one adds it instantly
-  // with its known sets/reps; the stepper still lets you change it after.
-  var EXERCISE_LIBRARY = [
+  var EXERCISES = [
     { muscle: "Chest", items: [
       { name: "Incline Barbell Press", sets: 3, reps: "8-10" },
       { name: "Chest Flyes (cable/machine)", sets: 4, reps: "12-15" },
@@ -535,6 +268,9 @@
     ]}
   ];
 
+  var LS_LASTDATE = "gymbuilder:lastDate";
+  var LS_PROGRESS = "gymbuilder:progress"; // { "gi-ii": filledCount }
+
   function lsGet(key, fallback){
     try { var v = localStorage.getItem(key); return v === null ? fallback : v; }
     catch(e){ return fallback; }
@@ -542,322 +278,85 @@
   function lsSet(key, val){
     try { localStorage.setItem(key, val); } catch(e){ /* no persistence this session */ }
   }
-  function loadJSON(key, fallback){
-    try { var v = JSON.parse(lsGet(key, "")); return v || fallback; }
-    catch(e){ return fallback; }
+
+  var todayStr = new Date().toDateString();
+  var storedDate = lsGet(LS_LASTDATE, null);
+  if (storedDate !== todayStr) {
+    lsSet(LS_PROGRESS, "{}");
+    lsSet(LS_LASTDATE, todayStr);
   }
-  function saveJSON(key, obj){ lsSet(key, JSON.stringify(obj)); }
+  var progress;
+  try { progress = JSON.parse(lsGet(LS_PROGRESS, "{}")) || {}; }
+  catch(e){ progress = {}; }
 
-  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-
-  var data = loadJSON(LS_DATA, null);
-  if (!data || !Array.isArray(data.days) || data.days.length === 0) {
-    data = { days: [ { id: uid(), name: "Day 1", exercises: [] } ] };
-    saveJSON(LS_DATA, data);
-  }
-  var progress = loadJSON(LS_PROGRESS, {});
-  var dayDate = loadJSON(LS_DAYDATE, {});
-
-  var selectedId = lsGet(LS_SELECTED, null);
-  if (!data.days.some(function(d){ return d.id === selectedId; })) {
-    selectedId = data.days[0].id;
-  }
-
-  function saveData(){ saveJSON(LS_DATA, data); }
-  function saveProgress(){ saveJSON(LS_PROGRESS, progress); }
-  function saveDayDate(){ saveJSON(LS_DAYDATE, dayDate); }
-  function currentDay(){ return data.days.find(function(d){ return d.id === selectedId; }); }
-
-  // Ensure the currently-selected day's dots are fresh if it's a new calendar
-  // day since it was last opened.
-  function ensureFreshToday(day){
-    var todayStr = new Date().toDateString();
-    if (dayDate[day.id] !== todayStr) {
-      Object.keys(progress).forEach(function(k){
-        if (k.indexOf(day.id + "-") === 0) delete progress[k];
-      });
-      dayDate[day.id] = todayStr;
-      saveProgress();
-      saveDayDate();
-    }
-  }
+  function saveProgress(){ lsSet(LS_PROGRESS, JSON.stringify(progress)); }
 
   document.getElementById("dateLabel").textContent = new Date().toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric"});
 
-  // ---- Tabs ----
-  var tabsEl = document.getElementById("tabs");
-  function renderTabs(){
-    tabsEl.innerHTML = "";
-    data.days.forEach(function(day){
-      var btn = document.createElement("button");
-      btn.className = "tab";
-      btn.setAttribute("role","tab");
-      btn.setAttribute("aria-selected", day.id === selectedId ? "true" : "false");
-      btn.textContent = day.name;
-      btn.addEventListener("click", function(){
-        selectedId = day.id;
-        lsSet(LS_SELECTED, selectedId);
-        render();
-      });
-      tabsEl.appendChild(btn);
-    });
-    var addBtn = document.createElement("button");
-    addBtn.className = "tab-add";
-    addBtn.textContent = "+";
-    addBtn.title = "Add day";
-    addBtn.addEventListener("click", function(){
-      var name = prompt("Name this day:", "Day " + (data.days.length + 1));
-      if (name === null) return;
-      name = name.trim();
-      if (!name) return;
-      var newDay = { id: uid(), name: name, exercises: [] };
-      data.days.push(newDay);
-      saveData();
-      selectedId = newDay.id;
-      lsSet(LS_SELECTED, selectedId);
-      render();
-    });
-    tabsEl.appendChild(addBtn);
-  }
-
-  // ---- Day actions ----
-  document.getElementById("renameDayBtn").addEventListener("click", function(){
-    var day = currentDay();
-    if (!day) return;
-    var name = prompt("Rename day:", day.name);
-    if (name === null) return;
-    name = name.trim();
-    if (!name) return;
-    day.name = name;
-    saveData();
-    render();
-  });
-
-  document.getElementById("deleteDayBtn").addEventListener("click", function(){
-    if (data.days.length <= 1) { alert("Can't delete your only day."); return; }
-    var day = currentDay();
-    if (!day) return;
-    if (!confirm('Delete "' + day.name + '" and all its exercises?')) return;
-    var idx = data.days.findIndex(function(d){ return d.id === day.id; });
-    data.days.splice(idx, 1);
-    Object.keys(progress).forEach(function(k){
-      if (k.indexOf(day.id + "-") === 0) delete progress[k];
-    });
-    delete dayDate[day.id];
-    saveData(); saveProgress(); saveDayDate();
-    selectedId = data.days[Math.max(0, idx - 1)].id;
-    lsSet(LS_SELECTED, selectedId);
-    render();
-  });
-
-  // ---- Add exercise: opens the picker instead of going straight to a prompt ----
-  function addExerciseToCurrentDay(name, sets, reps){
-    var day = currentDay();
-    if (!day) return;
-    day.exercises.push({ id: uid(), name: name, sets: sets, reps: reps || "" });
-    saveData();
-    render();
-  }
-
-  function promptCustomExercise(){
-    var name = prompt("Exercise name:");
-    if (name === null) return;
-    name = name.trim();
-    if (!name) return;
-    var setsStr = prompt("How many sets?", "3");
-    if (setsStr === null) return;
-    var sets = parseInt(setsStr, 10);
-    if (!sets || sets < 1) sets = 1;
-    if (sets > 12) sets = 12;
-    var reps = prompt("Reps (optional, e.g. 8-12) — leave blank to skip:", "");
-    if (reps === null) reps = "";
-    addExerciseToCurrentDay(name, sets, reps.trim());
-  }
-
-  var pickerBackdrop = document.getElementById("pickerBackdrop");
-  var pickerSearch = document.getElementById("pickerSearch");
-  var pickerList = document.getElementById("pickerList");
-
-  function openPicker(){
-    pickerSearch.value = "";
-    renderPickerList("");
-    pickerBackdrop.hidden = false;
-    setTimeout(function(){ pickerSearch.focus(); }, 50);
-  }
-  function closePicker(){ pickerBackdrop.hidden = true; }
-
-  function renderPickerList(query){
-    var q = query.trim().toLowerCase();
-    pickerList.innerHTML = "";
-    var anyMatch = false;
-    EXERCISE_LIBRARY.forEach(function(group){
-      var matches = group.items.filter(function(it){
-        return !q || it.name.toLowerCase().indexOf(q) !== -1;
-      });
-      if (matches.length === 0) return;
-      anyMatch = true;
-      var head = document.createElement("div");
-      head.className = "picker-muscle";
-      head.textContent = group.muscle;
-      pickerList.appendChild(head);
-      matches.forEach(function(it){
-        var btn = document.createElement("button");
-        btn.className = "picker-item";
-        btn.innerHTML = '<span class="piname">' + it.name + '</span>' +
-          '<span class="pidef">' + it.sets + '&times;' + it.reps + '</span>';
-        btn.addEventListener("click", function(){
-          addExerciseToCurrentDay(it.name, it.sets, it.reps);
-          closePicker();
-        });
-        pickerList.appendChild(btn);
-      });
-    });
-    if (!anyMatch) {
-      pickerList.innerHTML = '<div class="picker-empty">No matches — try "+ Type a custom exercise" above.</div>';
-    }
-  }
-
-  document.getElementById("addExBtn").addEventListener("click", openPicker);
-  document.getElementById("pickerClose").addEventListener("click", closePicker);
-  document.getElementById("pickerCustomBtn").addEventListener("click", function(){
-    closePicker();
-    promptCustomExercise();
-  });
-  pickerSearch.addEventListener("input", function(){ renderPickerList(pickerSearch.value); });
-  pickerBackdrop.addEventListener("click", function(e){
-    if (e.target === pickerBackdrop) closePicker();
-  });
-
-  // ---- Reset today's dots for this day ----
   document.getElementById("resetBtn").addEventListener("click", function(){
-    var day = currentDay();
-    if (!day) return;
-    Object.keys(progress).forEach(function(k){
-      if (k.indexOf(day.id + "-") === 0) delete progress[k];
-    });
+    progress = {};
     saveProgress();
     render();
   });
 
-  // ---- Render ----
   function render(){
-    renderTabs();
-    var day = currentDay();
-    if (!day) return;
-    ensureFreshToday(day);
+    var groupsEl = document.getElementById("groups");
+    groupsEl.innerHTML = "";
 
-    document.getElementById("dayName").textContent = day.name;
-
-    var listEl = document.getElementById("exList");
-    listEl.innerHTML = "";
-
-    if (day.exercises.length === 0) {
-      listEl.innerHTML = '<div class="empty">No exercises yet.<br>Tap "+ Add Exercise" below to build this day.</div>';
-      return;
-    }
-
-    day.exercises.forEach(function(ex){
-      var key = day.id + "-" + ex.id;
-      var done = Math.min(progress[key] || 0, ex.sets);
-
+    EXERCISES.forEach(function(group, gi){
       var card = document.createElement("div");
-      card.className = "ex";
+      card.className = "group";
+
+      var totalTarget = 0, totalDone = 0;
+      group.items.forEach(function(item, ii){
+        totalTarget += item.sets;
+        var key = gi + "-" + ii;
+        totalDone += Math.min(progress[key] || 0, item.sets);
+      });
+      var pct = totalTarget ? Math.round((totalDone/totalTarget)*100) : 0;
 
       var head = document.createElement("div");
-      head.className = "ex-head";
-
-      var left = document.createElement("div");
-      var nameBtn = document.createElement("button");
-      nameBtn.className = "ex-name" + (done >= ex.sets ? " done" : "");
-      nameBtn.textContent = ex.name;
-      nameBtn.addEventListener("click", function(){
-        var newName = prompt("Rename exercise:", ex.name);
-        if (newName === null) return;
-        newName = newName.trim();
-        if (!newName) return;
-        ex.name = newName;
-        saveData();
-        render();
-      });
-      left.appendChild(nameBtn);
-
-      var repsBtn = document.createElement("button");
-      repsBtn.className = "ex-reps";
-      repsBtn.textContent = ex.reps ? ex.reps : "+ add reps";
-      repsBtn.addEventListener("click", function(){
-        var newReps = prompt("Reps (e.g. 8-12):", ex.reps || "");
-        if (newReps === null) return;
-        ex.reps = newReps.trim();
-        saveData();
-        render();
-      });
-      left.appendChild(repsBtn);
-      head.appendChild(left);
-
-      var delBtn = document.createElement("button");
-      delBtn.className = "ex-del";
-      delBtn.textContent = "×";
-      delBtn.title = "Delete exercise";
-      delBtn.addEventListener("click", function(){
-        if (!confirm('Delete "' + ex.name + '"?')) return;
-        var idx = day.exercises.findIndex(function(e){ return e.id === ex.id; });
-        day.exercises.splice(idx, 1);
-        delete progress[key];
-        saveData(); saveProgress();
-        render();
-      });
-      head.appendChild(delBtn);
-
+      head.className = "group-head";
+      head.innerHTML = '<span class="gname">' + group.muscle + '</span>' +
+        '<span class="group-progress"><span class="frac">' + totalDone + '/' + totalTarget + '</span>' +
+        '<span class="bar"><i style="transform:scaleX(' + (pct/100) + ')"></i></span></span>';
       card.appendChild(head);
 
-      var row2 = document.createElement("div");
-      row2.className = "ex-row2";
+      group.items.forEach(function(item, ii){
+        var key = gi + "-" + ii;
+        var target = item.sets;
+        var done = Math.min(progress[key] || 0, target);
 
-      var stepper = document.createElement("div");
-      stepper.className = "stepper";
-      var minusBtn = document.createElement("button");
-      minusBtn.textContent = "−";
-      minusBtn.addEventListener("click", function(){
-        ex.sets = Math.max(1, ex.sets - 1);
-        saveData();
-        render();
+        var row = document.createElement("div");
+        row.className = "item";
+
+        var left = document.createElement("div");
+        left.innerHTML = '<span class="iname' + (done >= target ? ' done' : '') + '">' + item.name + '</span>' +
+          '<span class="iset">' + target + ' set' + (target === 1 ? '' : 's') + ' &times; ' + item.reps + '</span>';
+        row.appendChild(left);
+
+        var dots = document.createElement("div");
+        dots.className = "dots";
+        for (var d = 0; d < target; d++) {
+          (function(dotIndex){
+            var dot = document.createElement("button");
+            dot.className = "dot" + (dotIndex < done ? " filled" : "");
+            dot.setAttribute("aria-label", item.name + " set " + (dotIndex+1));
+            dot.addEventListener("click", function(){
+              var current = Math.min(progress[key] || 0, target);
+              var newVal = (dotIndex + 1 === current) ? dotIndex : dotIndex + 1;
+              progress[key] = newVal;
+              saveProgress();
+              render();
+            });
+            dots.appendChild(dot);
+          })(d);
+        }
+        row.appendChild(dots);
+        card.appendChild(row);
       });
-      var countSpan = document.createElement("span");
-      countSpan.className = "scount";
-      countSpan.textContent = ex.sets + " set" + (ex.sets === 1 ? "" : "s");
-      var plusBtn = document.createElement("button");
-      plusBtn.textContent = "+";
-      plusBtn.addEventListener("click", function(){
-        ex.sets = Math.min(12, ex.sets + 1);
-        saveData();
-        render();
-      });
-      stepper.appendChild(minusBtn);
-      stepper.appendChild(countSpan);
-      stepper.appendChild(plusBtn);
-      row2.appendChild(stepper);
 
-      var dots = document.createElement("div");
-      dots.className = "dots";
-      for (var d = 0; d < ex.sets; d++) {
-        (function(dotIndex){
-          var dot = document.createElement("button");
-          dot.className = "dot" + (dotIndex < done ? " filled" : "");
-          dot.setAttribute("aria-label", ex.name + " set " + (dotIndex+1));
-          dot.addEventListener("click", function(){
-            var current = Math.min(progress[key] || 0, ex.sets);
-            var newVal = (dotIndex + 1 === current) ? dotIndex : dotIndex + 1;
-            progress[key] = newVal;
-            saveProgress();
-            render();
-          });
-          dots.appendChild(dot);
-        })(d);
-      }
-      row2.appendChild(dots);
-
-      card.appendChild(row2);
-      listEl.appendChild(card);
+      groupsEl.appendChild(card);
     });
   }
 
